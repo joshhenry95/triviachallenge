@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>Trivia Challenge</title>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Custom CSS -->
+	<link rel="stylesheet" style="text/css" href="../css/custom.css">
+	
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Poor+Story" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+
+	<!-- Favicon -->
+	<link rel="icon" href="../icons/q_mark.ico">
+	
+	<script>
+	  var numQuestions = 10;
+	  var questionCnt = 1;
+	  var correctAnsCnt = 0;
+	  var questionIndex = 0;
+	  var partialURL = 'https://opentdb.com/api.php?amount=10&type=multiple&difficulty=';
+	  var questions;
+	  var correctAnsIndex;
+	  var diff = "easy";
+	  var tryAgain = false;
+	  
+	  // Call loadQuestions to get our first set of questions.
+	  loadQuestions(diff);
+	  
+	  function submit() {
+	    
+		if (tryAgain) {
+		  location.reload();
+		}
+		
+		var radioBttns = document.getElementsByName("optradio");
+		var userAnswer;
+		
+		for (var i = 0; i < radioBttns.length; i++) {
+		  // Get the checked button. The inner html of it is the user's answer.
+		  
+		  if (radioBttns[i].checked) {
+		    userAnswer = i;
+			
+			radioBttns[i].checked = false;
+			
+			break;
+		  }
+		}
+		
+		// If userAnswer = correct_answer, increment questionCnt, correctAnsCnt and questionIndex, and show another question.
+		// Else, show end game screen.
+		if (userAnswer == correctAnsIndex) {
+		  questionCnt++;
+		  correctAnsCnt++;
+		  questionIndex++;
+		  
+		  if (questionIndex == numQuestions) {
+		    loadQuestions(diff);
+		  } else {
+		    populateFields();
+		  }
+		} else {
+		  endGame();
+		}
+	    
+		
+		
+	    /*if (questionCnt == 11) {
+		  // This means the user has gotten to medium difficulty.
+		  // Load new questions with medium difficulty.
+		  loadQuestions("medium");
+		}
+		
+		if (questionCnt == 21) {
+		  loadQuestions("hard");
+		}*/
+		
+	  }
+	  
+	  function loadQuestions(difficulty) {
+	    questionIndex = 0;
+	    var url = partialURL + difficulty;
+		var req = new XMLHttpRequest();
+		
+	    req.open('GET', url);
+        req.responseType = 'json';
+        req.send();
+		
+		req.onload = function() {
+		  questions = req.response;
+		  
+		  populateFields();
+		}
+	  }
+	  
+	  function populateFields() {
+	    // Show the question.
+		document.getElementById("questionLabel").innerHTML = questions['results'][questionIndex].question;
+		
+		// Show the question cnt.
+		document.getElementById("questionCntLabel").innerHTML = "Question " + questionCnt + ":";
+		
+		// Show the amount of correct answers.
+		document.getElementById("correctAns").innerHTML = "Correct Answers: " + correctAnsCnt;
+		
+		// Show the possible answers.
+		var randNum = Math.floor(Math.random() * Math.floor(4));
+		correctAnsIndex = randNum;
+		
+		var correctAnsLabel = "label" + correctAnsIndex;
+		
+		// First, the correct answer.
+		document.getElementById(correctAnsLabel).innerHTML = questions['results'][questionIndex].correct_answer;
+		
+		// Now fill the others with the incorret answers.
+		var incorrectLabelIndex = 0;
+		
+		for (var i = 0; i <= 3; i++) {
+		  if (i != correctAnsIndex) {
+		    var incorrectLabel = "label" + i;
+			
+			document.getElementById(incorrectLabel).innerHTML = questions['results'][questionIndex].incorrect_answers[incorrectLabelIndex];
+			incorrectLabelIndex++;
+		  }
+		}	
+	  }
+	  
+	  function endGame() {
+	    var radioBttns = document.getElementsByName('optradio');
+		var endStr = " question right!";
+		var taunt;
+		
+		document.getElementById('correctAns').innerHTML = "The correct answer was " + questions['results'][questionIndex].correct_answer;
+		
+		for (var i = 0; i < radioBttns.length; i++) {
+		  radioBttns[i].style.display = "none";
+		  document.getElementById("label" + i).innerHTML = "";
+		}
+		
+		if (correctAnsCnt > 1 || correctAnsCnt == 0) {
+		  endStr = " questions right!";
+		}
+		
+		if (correctAnsCnt == 0) {
+		  taunt = "Geez... not even one?!";
+		} else if (correctAnsCnt < 5 && correctAnsCnt > 0) {
+		  taunt = "Oof... better luck next time!";
+		} else if (correctAnsCnt >= 5 && correctAnsCnt < 10) {
+		  taunt = "Dang, you're pretty good!";
+		} else if (correctAnsCnt < 15 && correctAnsCnt >= 10) {
+		  taunt = "Wow, you're a natural!";
+		} else {
+		  taunt = "...Are you SURE you're not using Google?!";
+		}
+		
+		document.getElementById("questionCntLabel").innerHTML = "You got " + correctAnsCnt + endStr;
+		document.getElementById("questionLabel").innerHTML = taunt;
+		
+		document.getElementById("submitButton").innerHTML = "Try Again!";
+		
+		tryAgain = true;
+	  }
+	  
+	  
+	</script>
+	
+  </head>
+
+  <body>
+    <div class="container">
+	  <div class="row text-center">
+	    <div class="col-md-12 border-bottom border-dark">
+		  <h1 id="questionCntLabel">Question 1:</h1>
+		  <h3 id="questionLabel" style="font-style: italic"></h3>
+		</div>
+	  </div>
+	  
+	  <div class="row text-center vertical-align-q-streak">
+	    <div class="col-md">
+		  <h3 id="correctAns" style="font-family: 'Poor Story'">Correct Answers: 0</h3>
+		</div>
+	  </div>
+	  
+	  <div class="row text-center vertical-align-rads">
+	    <div class="col-md">
+		  <div class="radio">
+            <label style="font-family: 'Indie Flower'; font-size: 24px"><input type="radio" name="optradio"><span id="label0"></span></label>
+          </div>
+          <div class="radio">
+            <label style="font-family: 'Indie Flower'; font-size: 24px"><input type="radio" name="optradio"><span id="label1"></span></label>
+          </div>
+          <div class="radio disabled">
+            <label style="font-family: 'Indie Flower'; font-size: 24px"><input type="radio" name="optradio"><span id="label2"></span></label>
+          </div>
+		  <div class="radio disabled">
+            <label style="font-family: 'Indie Flower'; font-size: 24px"><input type="radio" name="optradio"><span id="label3"></span></label>
+          </div>
+		</div>
+	  </div>
+	  
+	  <div class="row vertical-align-submit">
+        <div class="col-md border-top-0 border-dark text-center">
+          <button id="submitButton" type="button" class="btn btn-light btn-lg" onclick="submit()">Submit!</button>
+        </div>
+	  </div>
+	  
+  </body>
+</html>

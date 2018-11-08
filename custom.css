@@ -1,0 +1,83 @@
+.vertical-center {
+	min-height: 90%;
+	min-height: 90vh;
+	display: flex;
+	align-items: center;
+}
+
+.vertical-align-q-streak {
+	min-height: 20%;
+	min-height: 20vh;
+	display: flex;
+	align-items: center;
+}
+
+.vertical-align-rads {
+	min-height: 30%;
+	min-height: 30vh;
+	display: flex;
+	align-items: center;
+}
+
+.vertical-align-submit {
+	min-height: 10%;
+	min-height: 10vh;
+	display: flex;
+	align-items: center;
+}
+
+/* 
+  index.html css
+*/
+
+#header {
+	font-family: 'Poor Story';
+	font-size: 500%;
+	animation-duration: 4s;
+}
+
+#subHeader {
+	font-family: 'Indie Flower';
+	animation-duration: 3s;
+	animation-delay: 2s;
+}
+
+#playButton {
+	height: 100%;
+	width: 30%;
+	font-family: 'Poor Story';
+	font-size: 40px;
+	animation-duration: 4s;
+	animation-delay: 2.5s;
+}
+
+/* 
+  end index.html css
+*/
+
+/*
+  play.html css
+*/
+
+#questionCntLabel {
+	font-family: 'Poor Story';
+	font-size: 500%;
+	animation-duration: 4s;
+}
+
+#questionLabel {
+	font-family: 'Indie Flower';
+	animation-duration: 3s;
+	animation-delay: 2s;
+}
+
+#submitButton {
+	height: 100%;
+	width: 30%;
+	font-family: 'Poor Story';
+	font-size: 40px;
+}
+
+/*
+  end play.html css
+*/

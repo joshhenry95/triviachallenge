@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>Trivia Challenge</title>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Custom CSS -->
+	<link rel="stylesheet" style="text/css" href="../css/custom.css">
+	
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Poor+Story" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+
+	<!-- Favicon -->
+	<link rel="icon" href="../icons/q_mark.ico">
+	
+	<!-- Play Button Onclick -->
+	<script>
+	  function play() {
+	    //window.location.href = "play.html";
+	  }
+	</script>
+	
+	<script>
+	  $(document).ready(function() {
+	    $('#header').addClass('animated fadeIn');
+		$('#subHeader').addClass('animated fadeIn');
+		$('#playButton').addClass('animated fadeIn');
+		
+		$('#playButton').click(function() {
+          window.location.href = "play.html";
+        });
+	  });
+	</script>
+  </head>
+  
+  <body>
+    <div class="container">
+	  <div class="row text-center">
+	    <div class="col-md-12 border-bottom border-dark">
+	      <!--<h1 id="header" class="animated fadeIn" style="font-family: 'Poor Story'; font-size: 500%; animation-duration: 4s">Trivia Challenge</h1>-->
+		  <h1 id="header">Trivia Challenge</h1>
+		  <h3 id="subHeader"><em>How Far Can You Get?</em></h3>
+		</div>
+	  </div>
+	  <div class="row vertical-center">
+	    <div id="buttonCol" class="col-md-12 border-top-0 border-dark text-center">
+	      <button id="playButton" type="button" class="btn btn-light btn-lg">Play!</button>
+	    </div>
+	  </div>
+	</div>
+  </body>
+  
+  
+</html>
